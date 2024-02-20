@@ -46,17 +46,22 @@ if __name__ == '__main__':
         except ImportError:
             pass
         else:
-            ray.init(object_store_memory=1024*1024*1000)
+            ray.init(object_store_memory=1024 * 1024 * 1000)
 
         runner = Runner()
         try:
             runner.load(config)
         except yaml.YAMLError as exc:
             print(exc)
+    import time
+
+    config_name = config_name.split("/")[-1].split(".")[0]
+    run_name = config_name + "_" + time.strftime("%Y%m%d-%H%M")
 
     global_rank = int(os.getenv("RANK", "0"))
     if args["track"] and global_rank == 0:
         import wandb
+
         wandb.init(
             project=args["wandb_project_name"],
             entity=args["wandb_entity"],
@@ -64,6 +69,7 @@ if __name__ == '__main__':
             config=config,
             monitor_gym=True,
             save_code=True,
+            name=run_name,
         )
 
     runner.run(args)

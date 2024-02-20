@@ -4,6 +4,7 @@ from rl_games.common import tr_helpers
 from rl_games.envs.brax import create_brax_env
 from rl_games.envs.envpool import create_envpool
 from rl_games.envs.cule import create_cule
+from rl_games.envs.jym import create_jym_env
 import gym
 from gym.wrappers import FlattenObservation, FilterObservation
 import numpy as np
@@ -426,6 +427,10 @@ configurations = {
     'cule': {
         'env_creator': lambda **kwargs: create_cule(**kwargs),
         'vecenv_type': 'CULE'
+    },
+    'jym': {
+        'env_creator': lambda **kwargs: create_jym_env(**kwargs),
+        'vecenv_type': 'JYM'
     },
 }
 
